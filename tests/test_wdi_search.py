@@ -104,3 +104,19 @@ def test_wdi_search_unsupported_column_type():
     )
     with pytest.raises(ValueError):
         wdi_search(data, keywords=["inequality"], columns=["nested_column"])
+
+
+def test_wdi_search_ignores_nested_columns_and_nulls():
+    data = pl.DataFrame(
+        {
+            "indicator_name": ["GDP per capita", None, "Gender gap"],
+            "topics": [["a"], ["b"], ["gender"]],
+        }
+    )
+    result = wdi_search(data, keywords=["gender"])
+    assert result["indicator_name"].to_list() == ["Gender gap"]
+
+
+def test_wdi_search_empty_columns():
+    data = pl.DataFrame({"indicator_name": ["GDP per capita"]})
+    assert wdi_search(data, keywords=["gdp"], columns=[]).height == 0
