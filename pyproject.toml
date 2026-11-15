@@ -9,27 +9,44 @@ version = "1.0.1"
 description = "Seamless Access to World Bank World Development Indicators with Polars"
 readme = "README.md"
 license = "MIT"
-license-files = ["LICEN[CS]E.*"]
+license-files = ["LICEN[CS]E*"]
 requires-python = ">=3.10"
 dependencies = [
-    "httpx>=0.28.1",
     "polars>=1.0.0",
 ]
-
-[project.optional-dependencies]
-pandas = [
-  "pandas",
-  "pyarrow"
+keywords = ["economics", "data", "polars", "world-bank", "econdataverse"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
 ]
+
+[project.urls]
+Homepage = "https://econdataverse.github.io/py-wbwdi/"
+Repository = "https://github.com/econdataverse/py-wbwdi"
+Issues = "https://github.com/econdataverse/py-wbwdi/issues"
+Changelog = "https://github.com/econdataverse/py-wbwdi/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
     "pytest>=8.3.4",
-    "pytest-httpx>=0.35.0",
-    "pytest-cov>=6.0.0"
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.0",
+]
+docs = [
+    "great-docs>=0.17.0; python_version >= '3.11'",
 ]
 
-[project.urls]
-Repository = "https://github.com/tidy-intelligence/py-wbwdi"
-Issues = "https://github.com/tidy-intelligence/py-wbwdi/issues"
-Changelog = "https://github.com/tidy-intelligence/py-wbwdi/blob/master/CHANGELOG.md"
+[tool.pytest.ini_options]
+markers = [
+    "online: tests that hit the live World Bank API (deselect with '-m \"not online\"')",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
